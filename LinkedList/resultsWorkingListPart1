@@ -1,0 +1,415 @@
+Script started on Wed 12 Oct 2016 12:19:37 PM EDT
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ pwd
+/home/students/FALL15/kyvaunebrammer/CISC2200/LinkedList
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ catpwdexitg++ student.h student.cpp node.h node.cpp driver.cpp[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccat[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpwd[Kvi hugeinteger3.cpppwd[Kcat student.h student.cpp node.h node.cpp driver.cpp
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *
+ * 10/5/2016
+ *
+ * Student Class header file
+ *
+ */
+
+#ifndef STUDENT_H
+#define STUDENT_H
+
+#include <iostream>
+
+using namespace std;
+
+class Student {
+
+  public:
+	Student();
+	Student( string fN, char m, string lN, int s, int age);
+
+	void setFName( string fN);
+	string getFName();
+
+	void setMInit( char m);
+	char getMInit();
+
+	void setLName ( string lN);
+	string getLName();
+
+	void setSocial( int s);
+	int getSocial();
+
+	void setAge( int a);
+	int getAge();
+
+	void displayStudent();
+
+  private:
+	string fName;
+	char mInit;
+	string lName;
+	int social;
+	int age;
+
+};
+
+#endif
+/*
+ * Kyvaune Brammer
+ *
+ * 10/5/2016
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *
+ * Student Class Implementation file
+ *
+ */
+
+#include "student.h"
+
+#include <iostream>
+using namespace std;
+
+Student::Student() {
+
+	fName = "f";
+	mInit = 'm';
+	lName = "l";
+	social = 1234;
+	age = 0;
+
+}
+
+Student::Student(string fN, char m, string lN, int s, int a) {
+
+	fName = fN;
+	mInit = m;
+	lName = lN;
+	social = s;
+	age = a;
+
+}
+
+string Student::getFName() {
+
+	return fName;
+}
+
+void Student::setFName( string fN ) {
+
+	fName = fN;
+}
+
+char Student::getMInit() {
+
+	return mInit;
+}
+
+void Student::setMInit( char m ) {
+
+	mInit = m;
+}
+
+string Student::getLName() {
+
+	return lName;
+}
+
+void Student::setLName( string lN ) {
+
+	lName = lN;
+}
+
+int Student::getSocial() {
+
+	return social;
+}
+
+void Student::setSocial( int s ) {
+
+	social = s;
+}
+
+int Student::getAge() {
+	
+	return age;
+}
+
+void Student::setAge ( int a ) {
+
+	age = a; 
+}
+
+void Student::displayStudent() {
+	
+	cout << "Student Name: " << getFName() << " " << getMInit() << " " << getLName() << endl;
+	cout << "Social Security #: " << getSocial() << endl;
+	cout << "Student Age: " << getAge() << endl;
+
+}
+
+
+
+
+/*
+ * Kyvaune Brammer
+ *
+ * CISC2200 - Linked List Lab Part 1 - Papadakis
+ *
+ * 10/5/2016
+ *
+ * Node Class header file
+ *
+ */
+
+#ifndef NODE_H
+#define NODE_H
+
+#include "student.h" 
+
+using namespace std;
+
+class Node {
+
+  public:
+
+	Node();
+	Node( Student *s );
+	Node( string, char, string, int, int );
+
+	void setNextPtr( Node *n );
+	Node *getNextPtr();
+
+	Student *getStudentPtr();
+	void setStudentPtr(Student *s);	
+
+	void displayStudent();
+
+	string returnFirst();
+	char returnMiddle();
+	string returnLast();
+	int returnSocial();
+	int returnAge();
+
+  private:
+	Student *sPtr;
+	Node *next;
+	int item;
+
+};
+
+#endif 
+	
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *  
+ * 10/5/2016
+ *
+ * Node Implementation File
+ *
+ */
+
+#include "student.h"
+#include "node.h"
+
+#include <iostream>
+
+using namespace std;
+
+Node::Node() {
+
+	next = NULL;
+	sPtr = NULL;
+
+}
+
+Node::Node ( Student *s ) {
+
+	next = NULL;
+	sPtr = s;
+}
+
+Node *Node::getNextPtr() {
+
+	return next;
+}
+
+void Node::setNextPtr ( Node *n ) {
+
+	next = n;
+}
+
+Student *Node::getStudentPtr() {	
+
+	return sPtr;
+}
+
+void Node::setStudentPtr(Student *s) {
+
+	sPtr = s;
+}
+
+void Node::displayStudent() {
+
+	sPtr->displayStudent();
+}
+
+string Node::returnFirst() {
+	
+	return sPtr -> getFName();
+}
+
+char Node::returnMiddle() {
+
+	return sPtr -> getMInit();
+}
+
+string Node::returnLast() {
+
+	return sPtr -> getLName();
+}
+
+int Node::returnSocial() {
+
+	return sPtr -> getSocial();
+}
+
+int Node::returnAge() {
+	
+	return sPtr -> getAge();
+}
+
+
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *
+ * 10/7/2016
+ *
+ * Driver implementation file
+ *
+ */
+
+#include <iostream>
+
+#include "student.h" 
+#include "node.h"
+
+Node *head = NULL;
+
+void append(Node *n);
+void input();
+void display();
+
+
+void append (Node *n) {
+
+	Node* curr = head;
+
+	if (curr == NULL) {
+		
+		head = n;
+	}
+	else {
+		while (curr -> getNextPtr() != NULL) { 
+			
+		curr = curr -> getNextPtr();
+		
+		}
+		curr -> setNextPtr(n);
+	}
+}
+
+void input() {
+
+	string fN; 
+   	char m;
+	string lN;
+   	int social;
+   	int age;
+
+	cout << "First name: ";
+    	cin >> fN;
+	
+	cout << "Middle Initial: ";
+	cin >> m;
+
+	cout << "Last name: ";
+	cin >> lN;
+
+	cout << "Social security number: ";
+   	cin >> social;
+	
+  	cout << "Age: ";
+    	cin >> age;
+
+ 	Student * sPtr = new Student(fN, m, lN, social, age);
+	sPtr->displayStudent();
+
+  	Node * nPtr = new Node(sPtr);
+
+  	append(nPtr);
+}
+
+void display() {
+
+	Node *curr = head;
+
+	while(curr) {
+        	
+		curr->getStudentPtr()->displayStudent();
+       
+	 	curr = curr->getNextPtr(); 
+    	}	
+}
+
+int main() {
+
+	char menu;
+
+	do {
+
+		cout << "Please enter A to add a student record, D to display all records, or Q" 
+			<< " to quit: ";
+
+		cin >> menu;
+	
+		switch (menu) {
+		
+			case 'A': 
+				input();
+				break;
+			case 'D':
+				display();
+				break;
+		}
+	} while (menu != 'Q');
+}
+		 
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ cat student.h student.cpp node.h node.cpp driver.cpp[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpwd[Kexit[1Ppwdcat student.h student.cpp node.h node.cpp driver.cpp[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Kcat student.h student.cpp node.h node.cpp driver.cpp[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cpwd[Kexitg++ student.h student.cpp node.h node.cpp driver.cpp[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ccat[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cg++[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ ./a.out
+Please enter A to add a student record, D to display all records, or Q to quit: A
+First name: Kyvaune
+Middle Initial: B
+Last name: Brammer
+Social security number: 11111
+Age: 11
+Student Name: Kyvaune B Brammer
+Social Security #: 11111
+Student Age: 11
+Please enter A to add a student record, D to display all records, or Q to quit: A
+First name: Red
+Middle Initial: A
+Last name: Blue
+Social security number: 2222222
+Age: 22
+Student Name: Red A Blue
+Social Security #: 2222222
+Student Age: 22
+Please enter A to add a student record, D to display all records, or Q to quit: Q
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ exit
+exit
+
+Script done on Wed 12 Oct 2016 12:20:28 PM EDT

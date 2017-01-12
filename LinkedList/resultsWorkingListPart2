@@ -1,0 +1,729 @@
+Script started on Mon 17 Oct 2016 01:30:26 AM EDT
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ pwd
+/home/students/FALL15/kyvaunebrammer/CISC2200/LinkedList
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ catpwdvi list.cppls[Kcd LinkedListls[Kcd CISC2200ls[Kcd CISC2200ls[Kcd LinkedListls[Kvi list.cpppwd[Kcat[K[K[Kcat student.h c[Kstudent.cpp node.h node.cpp list.h list.cpp driver.cpp
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *
+ * 10/5/2016
+ *
+ * Student Class header file
+ *
+ */
+
+#ifndef STUDENT_H
+#define STUDENT_H
+
+#include <iostream>
+
+using namespace std;
+
+class Student {
+
+  public:
+	Student();
+	Student( string fN, char m, string lN, int s, int age);
+
+	void setFName( string fN);
+	string getFName();
+
+	void setMInit( char m);
+	char getMInit();
+
+	void setLName ( string lN);
+	string getLName();
+
+	void setSocial( int s);
+	int getSocial();
+
+	void setAge( int a);
+	int getAge();
+
+	void displayStudent();
+
+  private:
+	string fName;
+	char mInit;
+	string lName;
+	int social;
+	int age;
+
+};
+
+#endif
+/*
+ * Kyvaune Brammer
+ *
+ * 10/5/2016
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *
+ * Student Class Implementation file
+ *
+ */
+
+#include "student.h"
+
+#include <iostream>
+using namespace std;
+
+Student::Student() {
+
+	fName = "f";
+	mInit = 'm';
+	lName = "l";
+	social = 1234;
+	age = 0;
+
+}
+
+Student::Student(string fN, char m, string lN, int s, int a) {
+
+	fName = fN;
+	mInit = m;
+	lName = lN;
+	social = s;
+	age = a;
+
+}
+
+string Student::getFName() {
+
+	return fName;
+}
+
+void Student::setFName( string fN ) {
+
+	fName = fN;
+}
+
+char Student::getMInit() {
+
+	return mInit;
+}
+
+void Student::setMInit( char m ) {
+
+	mInit = m;
+}
+
+string Student::getLName() {
+
+	return lName;
+}
+
+void Student::setLName( string lN ) {
+
+	lName = lN;
+}
+
+int Student::getSocial() {
+
+	return social;
+}
+
+void Student::setSocial( int s ) {
+
+	social = s;
+}
+
+int Student::getAge() {
+	
+	return age;
+}
+
+void Student::setAge ( int a ) {
+
+	age = a; 
+}
+
+void Student::displayStudent() {
+	
+	cout << "Student Name: " << getFName() << " " << getMInit() << " " << getLName() << endl;
+	cout << "Social Security #: " << getSocial() << endl;
+	cout << "Student Age: " << getAge() << endl;
+
+}
+
+
+
+
+/*
+ * Kyvaune Brammer
+ *
+ * CISC2200 - Linked List Lab Part 1 - Papadakis
+ *
+ * 10/5/2016
+ *
+ * Node Class header file
+ *
+ */
+
+#ifndef NODE_H
+#define NODE_H
+
+#include "student.h" 
+
+using namespace std;
+
+class Node {
+
+  public:
+
+	Node();
+	Node( Student *s );
+	Node( string, char, string, int, int );
+
+	void setNextPtr( Node *n );
+	Node *getNextPtr();
+
+	void setPreviousPtr(Node *p);
+	Node *getPreviousPtr();
+
+	Student *getStudentPtr();
+	void setStudentPtr(Student *s);	
+
+	void displayStudent();
+
+	string returnFirst();
+	char returnMiddle();
+	string returnLast();
+	int returnSocial();
+	int returnAge();
+
+  private:
+	Student *sPtr;
+	Node *next;
+	Node *previous;
+	int item;
+
+};
+
+#endif 
+	
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *  
+ * 10/5/2016
+ *
+ * Node Implementation File
+ *
+ */
+
+#include "student.h"
+#include "node.h"
+
+#include <iostream>
+
+using namespace std;
+
+Node::Node() {
+
+	next = NULL;
+	sPtr = NULL;
+
+}
+
+Node::Node ( Student *s ) {
+
+	next = NULL;
+	sPtr = s;
+}
+
+Node *Node::getNextPtr() {
+
+	return next;
+}
+
+void Node::setNextPtr ( Node *n ) {
+
+	next = n;
+}
+
+Node *Node::getPreviousPtr() {
+
+	return previous;
+}
+
+void Node::setPreviousPtr(Node *p) {
+
+	previous = p;
+}
+
+Student *Node::getStudentPtr() {	
+
+	return sPtr;
+}
+
+void Node::setStudentPtr(Student *s) {
+
+	sPtr = s;
+}
+
+void Node::displayStudent() {
+
+	sPtr->displayStudent();
+}
+
+string Node::returnFirst() {
+	
+	return sPtr -> getFName();
+}
+
+char Node::returnMiddle() {
+
+	return sPtr -> getMInit();
+}
+
+string Node::returnLast() {
+
+	return sPtr -> getLName();
+}
+
+int Node::returnSocial() {
+
+	return sPtr -> getSocial();
+}
+
+int Node::returnAge() {
+	
+	return sPtr -> getAge();
+}
+
+
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab - Part 2
+ *
+ * List Header file
+ *
+ */
+
+#ifndef LIST_H
+#define LIST_H
+
+#include "node.h"
+
+using namespace std;
+
+class List {
+
+  public:
+	
+	List();
+	List( const List &copyList );
+	~List();
+
+	bool isEmpty();
+	int getNumNodes();
+
+	Node *getHeadPtr();
+	Node *getTailPtr();	
+	
+	void append(Node *nPtr);
+	void deleteNode(int d);
+
+	void input();	
+	void displayAscending();
+
+  private:
+	
+	Node *head;
+	Node *tail;
+	int numNodes;
+
+};
+
+#endif
+/*
+ * Kyvaune Brammer 
+ *
+ * List Class Implementation File
+ *
+ */
+
+#include <iostream>
+#include <string>
+#include <cstdlib>
+
+#include "list.h"
+#include "node.h"
+#include "student.h"
+
+using namespace std;
+
+List::List() {
+
+	head = NULL;
+	numNodes = 0;
+
+	cout << "Default constructor run succesfully "<< endl;
+}
+
+List::List( const List &copy ) {
+
+	head = NULL;
+	numNodes = 0;
+
+	Node *currentPtrCopy = copy.head;
+
+	while ( currentPtrCopy != NULL ) {
+
+		string fName = currentPtrCopy -> returnFirst();
+		char mInit = currentPtrCopy -> returnMiddle();
+		string lName = currentPtrCopy -> returnLast();
+		int social = currentPtrCopy -> returnSocial();
+		int age = currentPtrCopy -> returnAge();
+
+		Student *studentPtr = new Student ( fName, mInit, lName, social, age);
+
+		Node *newCopy = new Node (studentPtr);
+
+		append( newCopy );
+
+		currentPtrCopy = currentPtrCopy -> getNextPtr();
+	}
+	cout << "Copy constructor ran successfully " << endl;
+}
+
+List::~List() {
+
+	// can't delete an empty list, so
+
+	if ( !isEmpty() ) {
+
+		Node *currentPtr = head;
+		Node *tempPtr;
+
+		while ( currentPtr != NULL ) {
+	
+			// setting the currentPtr to a temporaryPtr which is then deleted
+		
+			tempPtr = currentPtr;
+			currentPtr = currentPtr -> getNextPtr();
+			delete tempPtr;
+		}
+	}
+	cout << "Destructor ran succesfully " << endl;
+}
+
+bool List::isEmpty() {
+
+	if (head == NULL) {
+
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+int List::getNumNodes() {
+
+	return numNodes;
+}
+
+Node *List::getHeadPtr() {
+
+	return head;
+}
+
+Node *List::getTailPtr() {
+
+	return tail;
+}
+
+void List::append( Node *nPtr) {
+
+	if ( head != NULL ) {
+
+		nPtr ->	setPreviousPtr(tail);
+		tail -> setNextPtr(nPtr);
+		tail = nPtr;
+	}
+	else {
+
+		head = nPtr;
+		tail = nPtr;
+	}
+	numNodes++;
+	
+	cout << "Append function ran successfully" << endl;
+}
+
+void List::deleteNode( int d) {
+
+	Node *currentPtr = head;
+
+	int nodeCount = 0;
+
+	// detects node that will be deleted as per user input
+
+	while (nodeCount < d) {
+
+		currentPtr = currentPtr -> getNextPtr();
+		nodeCount++;
+	}
+
+	// points to the node previous to and after the node that is to be deleted
+
+	Node *previousPtr = currentPtr -> getPreviousPtr();
+	Node *nextPtr = currentPtr -> getNextPtr();
+
+	// deletes node
+
+	if (previousPtr != NULL) {
+
+		previousPtr -> setNextPtr(nextPtr);
+	}
+	if (nextPtr != NULL) {
+
+		nextPtr -> setPreviousPtr(previousPtr);
+	}
+
+	currentPtr -> setNextPtr(NULL);
+	currentPtr -> setPreviousPtr(NULL);
+
+	cout << "Delete function ran succesfully!" << endl;
+}
+
+void List::displayAscending() {
+
+	Node *currentPtr = head;
+
+	cout << "Ascending List" << endl;
+	cout << "--------------" << endl << endl;
+
+	while (currentPtr != NULL) {
+
+		currentPtr -> displayStudent();
+		currentPtr = currentPtr -> getNextPtr();
+	}
+
+	cout << endl;
+}
+
+void List::input() {
+
+	string fName, lName;
+	char mInit;
+	int social, age;
+	string onoffswitch;
+	bool onoff = true;
+
+	Node *currentPtr = NULL;
+
+	while (onoff == true) {
+
+	cout << "Would you like to enter student data?(Y/N): ";
+	cin >> onoffswitch;
+
+	if  ( onoffswitch == "Y" ) {
+
+		cout << "Enter first name: ";
+		cin >> fName;
+
+		cout << "Enter middle initial: ";
+		cin >> mInit;
+
+		cout << "Enter last name: ";
+		cin >> lName;
+
+		cout << "Enter social security number: ";
+		cin >> social;
+
+		cout << "Enter student's age: ";
+		cin >> age;
+	
+		Student *studentPtr = new Student (fName, mInit, lName, social, age);
+
+		currentPtr = new Node (studentPtr);
+
+		append(currentPtr);
+	}
+	else
+		onoff = false;
+	}
+	cout << "Input function ran successfully!" << endl;
+}
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *
+ * 10/7/2016
+ *
+ * Driver implementation file
+ *
+ */
+
+#include <iostream>
+
+#include "student.h" 
+#include "node.h"
+#include "list.h"
+
+//COMMENTED OUT CODE BEGINS HERE
+
+/*
+void append(Node *n);
+void input();
+void display();
+
+
+void append (Node *n) {
+
+	Node* curr = head;
+
+	if (curr == NULL) {
+		
+		head = n;
+	}
+	else {
+		while (curr -> getNextPtr() != NULL) { 
+			
+		curr = curr -> getNextPtr();
+		
+		}
+		curr -> setNextPtr(n);
+	}
+}
+
+void input() {
+
+	string fN; 
+   	char m;
+	string lN;
+   	int social;
+   	int age;
+
+	cout << "First name: ";
+    	cin >> fN;
+	
+	cout << "Middle Initial: ";
+	cin >> m;
+
+	cout << "Last name: ";
+	cin >> lN;
+
+	cout << "Social security number: ";
+   	cin >> social;
+	
+  	cout << "Age: ";
+    	cin >> age;
+
+ 	Student * sPtr = new Student(fN, m, lN, social, age);
+	sPtr->displayStudent();
+
+  	Node * nPtr = new Node(sPtr);
+
+  	append(nPtr);
+}
+
+void display() {
+
+	Node *curr = head;
+
+	while(curr) {
+        	
+		curr->getStudentPtr()->displayStudent();
+       
+	 	curr = curr->getNextPtr(); 
+    	}	
+}
+*/
+
+//COMMENTED OUT CODE ENDS HERE
+
+Node *head = NULL;
+
+int main() {
+
+	char menu;
+	List studentList;
+	int deleteNode;
+	char deleteOrNah;
+
+	do {
+
+		cout << "Please enter A to add a student record, D to display all records, or Q" 
+			<< " to quit: ";
+
+		cin >> menu;
+	
+		switch (menu) {
+		
+			case 'A': 
+				studentList.input();
+				break;
+			case 'D':
+				studentList.displayAscending();
+				break;
+		}
+	} while (menu != 'Q');
+
+	cout << "There are " << studentList.getNumNodes() << " nodes within this list, would you like to delete one?(Y/N): ";
+	cin >> deleteOrNah;
+
+	if (deleteOrNah == 'Y') {
+
+		cout << "Enter the number of the node you would like to delete(1 being the most recent): ";
+		cin >> deleteNode;
+		
+		studentList.deleteNode(deleteNode);
+		studentList.displayAscending();
+	}
+}
+		 
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ cat student.h student.cpp node.h node.cpp list.h list.cpp driver.cpp[1P[1P[1P[1@g[1@+[1@+
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ ./a.out
+Default constructor run succesfully 
+Please enter A to add a student record, D to display all records, or Q to quit: A
+Would you like to enter student data?(Y/N): Y
+Enter first name: aa
+Enter middle initial: s
+Enter last name: dd
+Enter social security number: 11
+Enter student's age: 1
+Append function ran successfully
+Would you like to enter student data?(Y/N): Y
+Enter first name: ss
+Enter middle initial: d
+Enter last name: ff
+Enter social security number: 22
+Enter student's age: 3
+Append function ran successfully
+Would you like to enter student data?(Y/N): N
+Input function ran successfully!
+Please enter A to add a student record, D to display all records, or Q to quit: D
+Ascending List
+--------------
+
+Student Name: aa s dd
+Social Security #: 11
+Student Age: 1
+Student Name: ss d ff
+Social Security #: 22
+Student Age: 3
+
+Please enter A to add a student record, D to display all records, or Q to quit: Q
+There are 2 nodes within this list, would you like to delete one?(Y/N): Y
+Enter the number of the node you would like to delete(1 being the most recent): 1
+Delete function ran succesfully!
+Ascending List
+--------------
+
+Student Name: aa s dd
+Social Security #: 11
+Student Age: 1
+
+Destructor ran succesfully 
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ exit
+exit
+
+Script done on Mon 17 Oct 2016 01:32:09 AM EDT

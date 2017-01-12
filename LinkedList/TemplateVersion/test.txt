@@ -1,0 +1,12 @@
+Student Information
+-------------------
+
+Student Name: A S D
+Student SSN: 1234
+Student age: 10
+Student Information
+-------------------
+
+Student Name: Kyvaune B Brammer
+Student SSN: 12345
+Student age: 21

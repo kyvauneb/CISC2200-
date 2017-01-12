@@ -1,0 +1,778 @@
+Script started on Fri 28 Oct 2016 08:53:22 PM EDT
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ pwd
+/home/students/FALL15/kyvaunebrammer/CISC2200/LinkedList
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ pwdg++ student.cpp node.cpp list.cpp driver.cpp[C[C[1P[1P[1P[1@c[1@a[1@t
+/*
+ * Kyvaune Brammer
+ *
+ * 10/5/2016
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *
+ * Student Class Implementation file
+ *
+ */
+
+#include "student.h"
+
+#include <iostream>
+using namespace std;
+
+Student::Student() {
+
+	fName = "f";
+	mInit = 'm';
+	lName = "l";
+	social = 1234;
+	age = 0;
+
+}
+
+Student::Student(string fN, char m, string lN, int s, int a) {
+
+	fName = fN;
+	mInit = m;
+	lName = lN;
+	social = s;
+	age = a;
+
+}
+
+string Student::getFName() {
+
+	return fName;
+}
+
+void Student::setFName( string fN ) {
+
+	fName = fN;
+}
+
+char Student::getMInit() {
+
+	return mInit;
+}
+
+void Student::setMInit( char m ) {
+
+	mInit = m;
+}
+
+string Student::getLName() {
+
+	return lName;
+}
+
+void Student::setLName( string lN ) {
+
+	lName = lN;
+}
+
+int Student::getSocial() {
+
+	return social;
+}
+
+void Student::setSocial( int s ) {
+
+	social = s;
+}
+
+int Student::getAge() {
+	
+	return age;
+}
+
+void Student::setAge ( int a ) {
+
+	age = a; 
+}
+
+void Student::displayStudent() {
+	
+	cout << "Student Name: " << getFName() << " " << getMInit() << " " << getLName() << endl;
+	cout << "Social Security #: " << getSocial() << endl;
+	cout << "Student Age: " << getAge() << endl;
+
+}
+
+
+
+
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *  
+ * 10/5/2016
+ *
+ * Node Implementation File
+ *
+ */
+
+#include "student.h"
+#include "node.h"
+
+#include <iostream>
+
+using namespace std;
+
+Node::Node() {
+
+	next = NULL;
+	sPtr = NULL;
+
+}
+
+Node::Node ( Student *s ) {
+
+	next = NULL;
+	sPtr = s;
+}
+
+Node *Node::getNextPtr() {
+
+	return next;
+}
+
+void Node::setNextPtr ( Node *n ) {
+
+	next = n;
+}
+
+Node *Node::getPreviousPtr() {
+
+	return previous;
+}
+
+void Node::setPreviousPtr(Node *p) {
+
+	previous = p;
+}
+
+Student *Node::getStudentPtr() {	
+
+	return sPtr;
+}
+
+void Node::setStudentPtr(Student *s) {
+
+	sPtr = s;
+}
+
+void Node::displayStudent() {
+
+	sPtr->displayStudent();
+}
+
+string Node::returnFirst() {
+	
+	return sPtr -> getFName();
+}
+
+char Node::returnMiddle() {
+
+	return sPtr -> getMInit();
+}
+
+string Node::returnLast() {
+
+	return sPtr -> getLName();
+}
+
+int Node::returnSocial() {
+
+	return sPtr -> getSocial();
+}
+
+int Node::returnAge() {
+	
+	return sPtr -> getAge();
+}
+
+
+/*
+ * Kyvaune Brammer 
+ *
+ * List Class Implementation File
+ *
+ */
+
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <fstream>
+
+#include "list.h"
+#include "node.h"
+#include "student.h"
+
+using namespace std;
+
+List::List() {
+
+	head = NULL;
+	numNodes = 0;
+
+	cout << "Default constructor run succesfully "<< endl;
+}
+
+List::List( const List &copy ) {
+
+	head = NULL;
+	numNodes = 0;
+
+	Node *currentPtrCopy = copy.head;
+
+	while ( currentPtrCopy != NULL ) {
+
+		string fName = currentPtrCopy -> returnFirst();
+		char mInit = currentPtrCopy -> returnMiddle();
+		string lName = currentPtrCopy -> returnLast();
+		int social = currentPtrCopy -> returnSocial();
+		int age = currentPtrCopy -> returnAge();
+
+		Student *studentPtr = new Student ( fName, mInit, lName, social, age);
+
+		Node *newCopy = new Node (studentPtr);
+
+		append( newCopy );
+
+		currentPtrCopy = currentPtrCopy -> getNextPtr();
+	}
+	cout << "Copy constructor ran successfully " << endl;
+}
+
+List::~List() {
+
+	// can't delete an empty list, so
+
+	if ( !isEmpty() ) {
+
+		Node *currentPtr = head;
+		Node *tempPtr;
+
+		while ( currentPtr != NULL ) {
+	
+			// setting the currentPtr to a temporaryPtr which is then deleted
+		
+			tempPtr = currentPtr;
+			currentPtr = currentPtr -> getNextPtr();
+			delete tempPtr;
+		}
+	}
+	cout << "Destructor ran succesfully " << endl;
+}
+
+bool List::isEmpty() {
+
+	if (head == NULL) {
+
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+int List::getNumNodes() {
+
+	return numNodes;
+}
+
+Node *List::getHeadPtr() {
+
+	return head;
+}
+
+Node *List::getTailPtr() {
+
+	return tail;
+}
+
+void List::append( Node *nPtr) {
+
+	if ( head != NULL ) {
+
+		nPtr ->	setPreviousPtr(tail);
+		tail -> setNextPtr(nPtr);
+		tail = nPtr;
+	}
+	else {
+
+		head = nPtr;
+		tail = nPtr;
+	}
+	numNodes++;
+	
+	cout << "Append function ran successfully" << endl;
+}
+
+void List::deleteNode( int d) {
+
+	Node *currentPtr = head;
+
+	int nodeCount = 0;
+
+	// detects node that will be deleted as per user input
+
+	while (nodeCount < d) {
+
+		currentPtr = currentPtr -> getNextPtr();
+		nodeCount++;
+	}
+
+	// points to the node previous to and after the node that is to be deleted
+
+	Node *previousPtr = currentPtr -> getPreviousPtr();
+	Node *nextPtr = currentPtr -> getNextPtr();
+
+	// deletes node
+
+	if (previousPtr != NULL) {
+
+		previousPtr -> setNextPtr(nextPtr);
+	}
+	if (nextPtr != NULL) {
+
+		nextPtr -> setPreviousPtr(previousPtr);
+	}
+
+	currentPtr -> setNextPtr(NULL);
+	currentPtr -> setPreviousPtr(NULL);
+
+	cout << "Delete function ran succesfully!" << endl;
+}
+
+void List::displayAscending() {
+
+	Node *currentPtr = head;
+
+	cout << "Ascending List" << endl;
+	cout << "--------------" << endl << endl;
+
+	while (currentPtr != NULL) {
+
+		currentPtr -> displayStudent();
+		currentPtr = currentPtr -> getNextPtr();
+	}
+
+	cout << endl;
+}
+
+void List::insertNode(Node *nPtr) {
+
+	Node *currentPtr = head;
+	Node *previousPtr = tail;
+
+	int newPtr = nPtr -> returnAge();
+
+	if (isEmpty() == true) {
+
+		head = nPtr;
+	}
+
+	else {
+
+		while (currentPtr -> returnAge() < newPtr ) {
+
+			currentPtr = currentPtr -> getNextPtr();
+		}
+
+		previousPtr = currentPtr -> getPreviousPtr();
+		
+		nPtr -> setNextPtr(currentPtr);
+		nPtr -> setPreviousPtr(previousPtr);
+		currentPtr -> setPreviousPtr(nPtr);
+		previousPtr -> setNextPtr(nPtr);
+		
+	}
+
+	numNodes++;
+}	
+
+void List::input() {
+
+	string fName, lName;
+	char mInit;
+	int social, age;
+	string onoffswitch;
+	bool onoff = true;
+
+	Node *currentPtr = NULL;
+
+	while (onoff == true) {
+
+	cout << "Would you like to enter student data?(Y/N): ";
+	cin >> onoffswitch;
+
+	if  ( onoffswitch == "Y" ) {
+
+		cout << "Enter first name: ";
+		cin >> fName;
+
+		cout << "Enter middle initial: ";
+		cin >> mInit;
+
+		cout << "Enter last name: ";
+		cin >> lName;
+
+		cout << "Enter social security number: ";
+		cin >> social;
+
+		cout << "Enter student's age: ";
+		cin >> age;
+	
+		Student *studentPtr = new Student (fName, mInit, lName, social, age);
+
+		currentPtr = new Node (studentPtr);
+
+		append(currentPtr);
+	}
+	else
+		onoff = false;
+	}
+	cout << "Input function ran successfully!" << endl;
+}
+
+void List::fileInput() {
+
+        char fileName[50];
+        string fName, lName;
+        char mInit;
+        int social, age;
+	Node *currentPtr = NULL;
+	Student *studentPtr = NULL;
+
+        ifstream inputFile;
+
+        cout << "Input stream correct" << endl << endl;
+
+        cout << "Enter name of file to input: ";
+        cin >> fileName;
+
+        inputFile.open(fileName);
+
+        cout << "sample.txt correctly opened" << endl << endl;
+
+        if (!inputFile.is_open()) {
+
+                exit(EXIT_FAILURE);
+        }
+
+        do {
+
+                inputFile >> fName >> mInit >> lName >> social >> age;
+		
+		if (inputFile.eof()) {
+			break;
+		}
+
+		inputFile.close();
+                cout << "Members correctly read from inputFile" << endl << endl;
+
+                cout << fName << mInit << lName << social << age;
+		
+                Student *studentPtr = new Student (fName, mInit, lName, social, age);
+
+                if (studentPtr != NULL) {
+
+                        currentPtr = new Node (studentPtr);
+
+                        insertNode (currentPtr);
+
+                        cout << "Insertion successful" << endl; 
+	       }
+	
+	} while (!inputFile.eof());
+}
+
+void List::fileOutput() {
+
+	Node *currentPtr = head;
+	char fileName[50];
+
+	ofstream outputFile;
+
+	cout << "Enter the name of the file to output to: ";
+	cin >> fileName;
+
+	outputFile.open(fileName);
+
+	cout << "Output file successfully opened" << endl << endl;
+
+	do {
+
+		if (outputFile.eof()){
+			break;
+		}
+
+		while ( currentPtr != NULL ) {
+
+			outputFile << currentPtr -> returnFirst() << " "
+				<< currentPtr -> returnMiddle() << " "
+				<< currentPtr -> returnLast() << " "
+				<< currentPtr -> returnSocial() << " " 
+				<< currentPtr -> returnAge() << endl;
+
+			currentPtr = currentPtr -> getNextPtr();
+
+		}
+	outputFile.close();
+	}while (!outputFile.eof());
+}
+/*
+ * Kyvaune Brammer
+ *
+ * Linked List Lab Part 1 - Papadakis
+ *
+ * 10/7/2016
+ *
+ * Driver implementation file
+ *
+ */
+
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <cmath>
+
+#include "student.h" 
+#include "node.h"
+#include "list.h"
+
+const int FILESIZE = 20;
+
+//COMMENTED OUT CODE BEGINS HERE
+
+/*
+void append(Node *n);
+void input();
+void display();
+
+
+void append (Node *n) {
+
+	Node* curr = head;
+
+	if (curr == NULL) {
+		
+		head = n;
+	}
+	else {
+		while (curr -> getNextPtr() != NULL) { 
+			
+		curr = curr -> getNextPtr();
+		
+		}
+		curr -> setNextPtr(n);
+	}
+}
+
+void input() {
+
+	string fN; 
+   	char m;
+	string lN;
+   	int social;
+   	int age;
+
+	cout << "First name: ";
+    	cin >> fN;
+	
+	cout << "Middle Initial: ";
+	cin >> m;
+
+	cout << "Last name: ";
+	cin >> lN;
+
+	cout << "Social security number: ";
+   	cin >> social;
+	
+  	cout << "Age: ";
+    	cin >> age;
+
+ 	Student * sPtr = new Student(fN, m, lN, social, age);
+	sPtr->displayStudent();
+
+  	Node * nPtr = new Node(sPtr);
+
+  	append(nPtr);
+}
+
+void display() {
+
+	Node *curr = head;
+
+	while(curr) {
+        	
+		curr->getStudentPtr()->displayStudent();
+       
+	 	curr = curr->getNextPtr(); 
+    	}	
+}
+*/
+
+//COMMENTED OUT CODE ENDS HERE
+
+Node *head = NULL;
+Node *currentPtr = NULL;
+/*
+void fileInput() {
+
+	char fileName[50];
+	string fName, lName;
+	char mInit;
+	int social, age;
+
+	ifstream inputFile;
+
+	cout << "Input stream correct" << endl << endl;
+	
+	cout << "Enter name of file to input: ";
+	cin >> fileName;
+
+	inputFile.open(fileName);
+
+	cout << "sample.txt correctly opened" << endl << endl;
+
+	if (!inputFile.is_open()) {
+
+		exit(EXIT_FAILURE);
+	}
+
+	while ( inputFile.eof() != true ) {
+
+		inputFile >> fName >> mInit >> lName >> social >> age;
+
+		cout << "Members correctly read from inputFile" << endl << endl;
+	
+		cout << fName << mInit << lName << social << age;
+	
+		Student *studentPtr = new Student (fName, mInit, lName, social, age);
+
+		if (studentPtr != NULL) {	
+
+			currentPtr = new Node (studentPtr);
+		
+			studentList.insertNode (currentPtr);
+
+			cout << "Insertion successful" << endl;
+			
+			inputFile.close();
+		}
+	}
+}
+*/
+void fileOutput() {
+
+	string fileName;
+
+	cout << "Enter name of file to output: ";
+	cin >> fileName;
+
+	ofstream outputFile (fileName, ios::out);
+
+	while ( currentPtr != NULL ) {
+
+		outputFile << currentPtr -> returnFirst() << " " 
+		<< currentPtr -> returnMiddle() << " " 
+		<< currentPtr -> returnLast() << " " 
+		<< currentPtr -> returnSocial() << " " 
+		<< currentPtr -> returnAge() << endl;
+
+		currentPtr = currentPtr -> getNextPtr();
+	}
+	outputFile.close();
+}
+		
+int main() {
+
+	char menu;
+	List studentList;
+	char inputMethod;
+	bool onoff = false;
+	int deleteNode;
+	char deleteOrNah;
+	char outputOrNah;
+
+	
+	do {
+		cout << "Please enter A to add a student record, D to display all records, or Q" 
+			<< " to quit: ";
+
+		cin >> menu;
+	
+		switch (menu) {
+		
+			case 'A':
+
+				cout << "Enter either 'M' to enter student information manually or " 
+					<< "'F' to input student information from a file: ";
+				cin >> inputMethod;
+
+				if (inputMethod == 'M') {
+					studentList.input();
+				}
+				else if (inputMethod == 'F') {
+					cout << "Commencing file input." << endl << endl;
+					studentList.fileInput();
+				}
+				else {
+					cout << "That wasn't a valid input." << endl;
+				}
+				break;
+			case 'D':
+				studentList.displayAscending();
+				break;
+		}
+	} while (menu != 'Q');
+
+	cout << "There are " << studentList.getNumNodes() << " nodes within this list, would you like to delete one?(Y/N): ";
+	cin >> deleteOrNah;
+
+	if (deleteOrNah == 'Y') {
+
+		cout << "Enter the number of the node you would like to delete(1 being the most recent): ";
+		cin >> deleteNode;
+		
+		studentList.deleteNode(deleteNode);
+		studentList.displayAscending();
+		cout << endl;
+	}
+
+	cout << "Would you like to save the final list to a file?(Y/N): ";
+	cin >> outputOrNah;
+
+	if (outputOrNah == 'Y') {
+
+		studentList.fileOutput();
+		cout << endl;
+	}
+}
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ cat student.cpp node.cpp list.cpp driver.cpp[C[C[1P[1P[1P[1@g[1@+[1@+
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ ./a.out
+Default constructor run succesfully 
+Please enter A to add a student record, D to display all records, or Q to quit: A
+Enter either 'M' to enter student information manually or 'F' to input student information from a file: F
+Commencing file input.
+
+Input stream correct
+
+Enter name of file to input: stun dent.dat
+sample.txt correctly opened
+
+Members correctly read from inputFile
+
+KyvauneBBrammer111111121Insertion successful
+Please enter A to add a student record, D to display all records, or Q to quit: Q
+There are 1 nodes within this list, would you like to delete one?(Y/N): N
+Would you like to save the final list to a file?(Y/N): Y
+Enter the name of the file to output to: finaloutput.txt
+Output file successfully opened
+
+^C
+]0;kyvaunebrammer@storm:~/CISC2200/LinkedList[kyvaunebrammer@storm LinkedList]$ exit
+exit
+
+Script done on Fri 28 Oct 2016 08:54:35 PM EDT
